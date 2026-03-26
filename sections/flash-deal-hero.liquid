@@ -1,0 +1,253 @@
+{{ 'section-flash-deal.css' | asset_url | stylesheet_tag }}
+
+<section class="flash-deal-hero" data-section-id="{{ section.id }}">
+  <div class="flash-deal-hero__container">
+    <!-- Deal Badge -->
+    <div class="flash-deal-hero__badge">
+      <span class="flash-deal-hero__badge-icon">⚡</span>
+      <span class="flash-deal-hero__badge-text">{{ section.settings.badge_text | default: "Today's Flash Deal" }}</span>
+    </div>
+
+    <!-- Main Deal Content -->
+    <div class="flash-deal-hero__content">
+      <div class="flash-deal-hero__image">
+        {%- if section.settings.deal_product != blank -%}
+          {% assign product = section.settings.deal_product %}
+          {% assign featured_media = product.featured_media %}
+          {% if featured_media != blank %}
+            {{ featured_media | image_url: width: 600 | image_tag: loading: 'eager', sizes: '(min-width: 1200px) 600px, (min-width: 750px) 50vw, 100vw' }}
+          {% else %}
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+        
+        <!-- Sale Badge Overlay -->
+        {%- if section.settings.deal_product != blank and section.settings.deal_product.variants.first.compare_at_price > section.settings.deal_product.variants.first.price -%}
+          <div class="flash-deal-hero__sale-badge">
+            {% assign savings = section.settings.deal_product.variants.first.compare_at_price | minus: section.settings.deal_product.variants.first.price | times: 100 | divided_by: section.settings.deal_product.variants_first.compare_at_price %}
+            {{ section.settings.sale_badge_text | default: "SAVE" }} {{ savings | round }}%
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="flash-deal-hero__details">
+        <!-- Product Title -->
+        <h2 class="flash-deal-hero__title">
+          {%- if section.settings.deal_product != blank -%}
+            {{ section.settings.deal_product.title | escape }}
+          {%- else -%}
+            Featured Product Name Here
+          {%- endif -%}
+        </h2>
+
+        <!-- Short Description -->
+        {%- if section.settings.deal_description != blank -%}
+          <p class="flash-deal-hero__description">{{ section.settings.deal_description }}</p>
+        {%- endif -%}
+
+        <!-- Price -->
+        <div class="flash-deal-hero__price">
+          {%- if section.settings.deal_product != blank -%}
+            <span class="flash-deal-hero__price-current">{{ section.settings.deal_product.variants.first.price | money }}</span>
+            {%- if section.settings.deal_product.variants.first.compare_at_price > section.settings.deal_product.variants.first.price -%}
+              <span class="flash-deal-hero__price-compare">{{ section.settings.deal_product.variants.first.compare_at_price | money }}</span>
+            {%- endif -%}
+          {%- else -%}
+            <span class="flash-deal-hero__price-current">$99.99</span>
+            <span class="flash-deal-hero__price-compare">$149.99</span>
+          {%- endif -%}
+        </div>
+
+        <!-- Countdown Timer -->
+        <div class="flash-deal-hero__countdown" data-countdown-end="{{ section.settings.countdown_end | default: '2026-03-27T00:00:00' }}">
+          <div class="countdown__label">{{ section.settings.countdown_label | default: "Deal ends in" }}</div>
+          <div class="countdown__timer">
+            <div class="countdown__unit">
+              <span class="countdown__number" data-days>00</span>
+              <span class="countdown__text">Days</span>
+            </div>
+            <span class="countdown__separator">:</span>
+            <div class="countdown__unit">
+              <span class="countdown__number" data-hours>00</span>
+              <span class="countdown__text">Hrs</span>
+            </div>
+            <span class="countdown__separator">:</span>
+            <div class="countdown__unit">
+              <span class="countdown__number" data-minutes>00</span>
+              <span class="countdown__text">Min</span>
+            </div>
+            <span class="countdown__separator">:</span>
+            <div class="countdown__unit">
+              <span class="countdown__number" data-seconds>00</span>
+              <span class="countdown__text">Sec</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stock Indicator -->
+        <div class="flash-deal-hero__stock">
+          {%- if section.settings.deal_product != blank and section.settings.deal_product.variants.first.inventory_quantity > 0 -%}
+            {% assign stock = section.settings.deal_product.variants.first.inventory_quantity %}
+            <div class="stock-bar">
+              <div class="stock-bar__fill" style="width: {{ stock | at_most: 100 }}%"></div>
+            </div>
+            <span class="stock-text">
+              {% if stock < 25 %}
+                <span class="stock-urgent">🔥 Only {{ stock }} left!</span>
+              {%- else -%}
+                {{ stock }} units available
+              {%- endif -%}
+            </span>
+          {%- else -%}
+            <span class="stock-text stock-urgent">🔥 Selling fast!</span>
+          {%- endif -%}
+        </div>
+
+        <!-- CTA Button -->
+        <div class="flash-deal-hero__cta">
+          {%- if section.settings.deal_product != blank -%}
+            <a href="{{ section.settings.deal_product.url }}" class="button button--cta">
+              {{ section.settings.cta_text | default: "Get This Deal" }}
+              {% render 'icon-arrow' %}
+            </a>
+          {%- else -%}
+            <a href="{{ routes.root_url }}" class="button button--cta">
+              {{ section.settings.cta_text | default: "Get This Deal" }}
+              {% render 'icon-arrow' %}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    <!-- Trust Badges -->
+    <div class="flash-deal-hero__trust">
+      <div class="trust-item">
+        {% render 'icon-shield' %}
+        <span>{{ section.settings.trust_1 | default: "Discreet Shipping" }}</span>
+      </div>
+      <div class="trust-item">
+        {% render 'icon-truck' %}
+        <span>{{ section.settings.trust_2 | default: "Free over $50" }}</span>
+      </div>
+      <div class="trust-item">
+        {% render 'icon-undo' %}
+        <span>{{ section.settings.trust_3 | default: "30-Day Returns" }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Countdown Timer Logic
+  document.addEventListener('DOMContentLoaded', function() {
+    const countdownEl = document.querySelector('[data-section-id="{{ section.id }}"] [data-countdown-end]');
+    if (!countdownEl) return;
+
+    const endDate = new Date(countdownEl.dataset.countdownEnd).getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = endDate - now;
+
+      if (distance < 0) {
+        countdownEl.innerHTML = '<div class="countdown__expired">Deal has ended</div>';
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      const daysEl = countdownEl.querySelector('[data-days]');
+      const hoursEl = countdownEl.querySelector('[data-hours]');
+      const minutesEl = countdownEl.querySelector('[data-minutes]');
+      const secondsEl = countdownEl.querySelector('[data-seconds]');
+
+      if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
+      if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+      if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
+      if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Flash Deal Hero",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge_text",
+      "default": "Today's Flash Deal",
+      "label": "Badge Text"
+    },
+    {
+      "type": "product",
+      "id": "deal_product",
+      "label": "Deal Product"
+    },
+    {
+      "type": "text",
+      "id": "deal_description",
+      "label": "Short Description",
+      "default": "Premium quality, body-safe materials, and incredible value. This deal won't last!"
+    },
+    {
+      "type": "text",
+      "id": "sale_badge_text",
+      "default": "SAVE",
+      "label": "Sale Badge Text"
+    },
+    {
+      "type": "text",
+      "id": "countdown_label",
+      "default": "Deal ends in",
+      "label": "Countdown Label"
+    },
+    {
+      "type": "text",
+      "id": "countdown_end",
+      "label": "Countdown End Time",
+      "info": "Format: YYYY-MM-DDTHH:MM:SS"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "default": "Get This Deal",
+      "label": "CTA Button Text"
+    },
+    {
+      "type": "text",
+      "id": "trust_1",
+      "default": "Discreet Shipping",
+      "label": "Trust Badge 1"
+    },
+    {
+      "type": "text",
+      "id": "trust_2",
+      "default": "Free over $50",
+      "label": "Trust Badge 2"
+    },
+    {
+      "type": "text",
+      "id": "trust_3",
+      "default": "30-Day Returns",
+      "label": "Trust Badge 3"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Flash Deal Hero"
+    }
+  ]
+}
+{% endschema %}

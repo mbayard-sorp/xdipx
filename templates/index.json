@@ -1,0 +1,29 @@
+{
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "settings": {}
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo_position": "middle"
+      }
+    },
+    "flash-deal-hero": {
+      "type": "flash-deal-hero",
+      "settings": {}
+    },
+    "featured-collection": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Today's Top Deals"
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {}
+    }
+  },
+  "order": ["announcement", "header", "flash-deal-hero", "featured-collection", "footer"]
+}

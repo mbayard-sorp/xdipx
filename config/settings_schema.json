@@ -1,0 +1,149 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "XD IPX Flash Deals",
+    "theme_version": "1.0.0",
+    "theme_author": "Scotty AI",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://support.shopify.com/"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary Color",
+        "default": "#7B2D8E"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "Secondary Color",
+        "default": "#1A1A2E"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent/CTA Color",
+        "default": "#FF6B35"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background Color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text Color",
+        "default": "#1A1A2E"
+      },
+      {
+        "type": "color",
+        "id": "color_sale_badge",
+        "label": "Sale Badge Color",
+        "default": "#FF4444"
+      }
+    ]
+  },
+  {
+    "name": "Flash Deal Settings",
+    "settings": [
+      {
+        "type": "text",
+        "id": "deal_end_message",
+        "label": "Deal End Message",
+        "default": "Deal ends in"
+      },
+      {
+        "type": "text",
+        "id": "stock_message",
+        "label": "Low Stock Message",
+        "default": "units remaining"
+      },
+      {
+        "type": "range",
+        "id": "low_stock_threshold",
+        "label": "Low Stock Threshold",
+        "min": 10,
+        "max": 100,
+        "default": 25
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Heading Font",
+        "default": "poppins_n7"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body Font",
+        "default": "inter_n4"
+      }
+    ]
+  },
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_sticky_header",
+        "label": "Enable Sticky Header",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Logo",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "min": 50,
+        "max": 250,
+        "step": 10,
+        "default": 120,
+        "unit": "px",
+        "label": "Logo width"
+      }
+    ]
+  },
+  {
+    "name": "Social",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "X (Twitter)"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "YouTube"
+      }
+    ]
+  }
+]
