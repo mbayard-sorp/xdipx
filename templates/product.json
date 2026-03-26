@@ -4,12 +4,12 @@
       "type": "main-product",
       "settings": {}
     },
-    "related-products": {
+    "featured-collection": {
       "type": "featured-collection",
       "settings": {
         "title": "You May Also Like"
       }
     }
   },
-  "order": ["main", "related-products"]
+  "order": ["main", "featured-collection"]
 }

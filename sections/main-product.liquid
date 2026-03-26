@@ -1,0 +1,129 @@
+{{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+
+<section class="main-product" itemscope itemtype="http://schema.org/Product">
+  <div class="main-product__container">
+    <div class="main-product__gallery">
+      {%- if product.featured_media -%}
+        {{ product.featured_media | image_url: width: 1024 | image_tag: loading: 'lazy', sizes: '(min-width: 1200px) 715px, (min-width: 750px) 50vw, 100vw', data-featured-media: true }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+    </div>
+
+    <div class="main-product__info">
+      <h1 class="main-product__title" itemprop="name">{{ product.title | escape }}</h1>
+      
+      <div class="main-product__price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+        <span class="price price--end" itemprop="price" content="{{ product.price | divided_by: 100 }}">{{ product.price | money }}</span>
+        {%- if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price -%}
+          <span class="price price--compare">{{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
+        {%- endif -%}
+        <meta itemprop="priceCurrency" content="{{ cart.currency.iso_code }}">
+        <meta itemprop="priceValidUntil" content="{{ 'now' | date: '%Y-12-31' }}">
+        <link itemprop="availability" href="http://schema.org/{% if product.selected_or_first_available_variant.available %}InStock{% else %}OutOfStock{% endif %}">
+      </div>
+
+      <div class="main-product__description" itemprop="description">
+        {{ product.content }}
+      </div>
+
+      {%- form 'product', product, id: 'ProductForm-' | append: product.id, class: 'product-form', data-product-id: product.id -%}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-product-variant-id>
+        
+        <div class="product-form__buttons">
+          <button type="submit" name="add" class="product-form__submit button button--full-width {% if product.selected_or_first_available_variant.available == false %}button--disabled{% endif %}">
+            {%- if product.selected_or_first_available_variant.available -%}
+              Add to cart
+            {%- else -%}
+              Sold out
+            {%- endif -%}
+          </button>
+        </div>
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .main-product {
+    padding: 4rem 5rem;
+    max-width: var(--page-width);
+    margin: 0 auto;
+  }
+
+  .main-product__container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  @media (max-width: 750px) {
+    .main-product__container {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .main-product__gallery img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  .main-product__title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+
+  .main-product__price {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .main-product__price .price--end {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .main-product__price .price--compare {
+    font-size: 1.6rem;
+    opacity: 0.6;
+    text-decoration: line-through;
+  }
+
+  .main-product__description {
+    font-size: 1.6rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    opacity: 0.8;
+  }
+
+  .product-form__buttons {
+    margin-top: 2rem;
+  }
+
+  .product-form__submit {
+    width: 100%;
+    padding: 1.5rem;
+    font-size: 1.6rem;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Product information",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    }
+  ]
+}
+{% endschema %}

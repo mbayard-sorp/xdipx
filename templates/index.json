@@ -1,14 +1,12 @@
 {
   "sections": {
-    "announcement": {
+    "announcement-bar": {
       "type": "announcement-bar",
       "settings": {}
     },
     "header": {
       "type": "header",
-      "settings": {
-        "logo_position": "middle"
-      }
+      "settings": {}
     },
     "flash-deal-hero": {
       "type": "flash-deal-hero",
@@ -16,14 +14,18 @@
     },
     "featured-collection": {
       "type": "featured-collection",
-      "settings": {
-        "title": "Today's Top Deals"
-      }
+      "settings": {}
     },
     "footer": {
       "type": "footer",
       "settings": {}
     }
   },
-  "order": ["announcement", "header", "flash-deal-hero", "featured-collection", "footer"]
+  "order": [
+    "announcement-bar",
+    "header",
+    "flash-deal-hero",
+    "featured-collection",
+    "footer"
+  ]
 }

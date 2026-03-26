@@ -1,0 +1,59 @@
+<{% if section.settings.menu != blank %}announcement-bar{% else %}div{% endif %} class="announcement-bar" role="banner">
+  {%- if section.settings.menu != blank -%}
+    {%- for link in section.settings.menu.links -%}
+      <a href="{{ link.url }}" class="announcement-bar__link">
+        {{ link.title | escape }}
+      </a>
+    {%- endfor -%}
+  {%- else -%}
+    <div class="announcement-bar__message">
+      {{ section.settings.text | default: "Free shipping on orders over $50!" }}
+    </div>
+  {%- endif -%}
+</{% if section.settings.menu != blank %}announcement-bar{% else %}div{% endif %}>
+
+<style>
+  .announcement-bar {
+    background: var(--color-primary);
+    color: white;
+    padding: 1rem 5rem;
+    text-align: center;
+  }
+
+  .announcement-bar__link {
+    color: white;
+    text-decoration: none;
+    margin: 0 1.5rem;
+    font-size: 1.4rem;
+    font-weight: 500;
+  }
+
+  .announcement-bar__link:hover {
+    text-decoration: underline;
+  }
+
+  .announcement-bar__message {
+    font-size: 1.4rem;
+    font-weight: 500;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "default": "Welcome to our store",
+      "label": "Announcement text"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
+    }
+  ]
+}
+{% endschema %}
