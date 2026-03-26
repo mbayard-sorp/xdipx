@@ -8,13 +8,18 @@
       "type": "header",
       "settings": {}
     },
-    "flash-deal-hero": {
-      "type": "flash-deal-hero",
-      "settings": {}
+    "flash-deal-hero-v2": {
+      "type": "flash-deal-hero-v2",
+      "settings": {
+        "product": "8707224273067",
+        "countdown_end": "2026-03-27T00:00:00"
+      }
     },
     "featured-collection": {
       "type": "featured-collection",
-      "settings": {}
+      "settings": {
+        "title": "You May Also Like"
+      }
     },
     "footer": {
       "type": "footer",
@@ -24,9 +29,8 @@
   "order": [
     "announcement-bar",
     "header",
-    "flash-deal-hero",
+    "flash-deal-hero-v2",
     "featured-collection",
     "footer"
   ]
 }
- 

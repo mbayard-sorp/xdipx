@@ -1,0 +1,210 @@
+{{ 'flash-deal-v2.css' | asset_url | stylesheet_tag }}
+
+<section class="bundle-builder">
+  <div class="bundle-builder__container">
+    <!-- Header -->
+    <div class="bundle-builder__header">
+      <h1 class="bundle-builder__title">Complete Your Order</h1>
+      <p class="bundle-builder__subtitle">Add any extras you'd like before checking out</p>
+    </div>
+
+    <!-- Main Product -->
+    <div class="bundle-builder__main-product">
+      <div class="bundle-builder__product-image">
+        {%- if section.settings.main_product != blank -%}
+          {% if section.settings.main_product.featured_media %}
+            {{ section.settings.main_product.featured_media | image_url: width: 300 | image_tag }}
+          {% endif %}
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag: 'bundle-builder__placeholder' }}
+        {%- endif -%}
+      </div>
+      <div class="bundle-builder__product-info">
+        <span class="bundle-builder__product-vendor">{{ section.settings.main_product.vendor | default: 'TheVibed' }}</span>
+        <h2 class="bundle-builder__product-name">{{ section.settings.main_product.title | default: 'inBloom Rosales Sucking Vibrator' }}</h2>
+        <div class="bundle-builder__product-price">{{ section.settings.main_product.price | default: '$50.00' | money }}</div>
+      </div>
+      <div class="bundle-builder__product-qty">
+        <label>Quantity</label>
+        <div class="bundle-builder__qty-selector">
+          <button class="bundle-builder__qty-btn" data-main-minus>−</button>
+          <input type="number" id="main-qty" value="1" min="1" max="10">
+          <button class="bundle-builder__qty-btn" data-main-plus>+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accessories -->
+    <div class="bundle-builder__accessories">
+      <h3 class="bundle-builder__accessories-title">Popular Add-Ons</h3>
+      <div class="bundle-builder__accessories-grid">
+        
+        <!-- Accessory 1 -->
+        <div class="bundle-builder__accessory">
+          <label class="bundle-builder__accessory-check">
+            <input type="checkbox" name="accessory_1" data-accessory-id="8707223912619" data-accessory-price="21.99">
+            <span class="bundle-builder__check-custom"></span>
+          </label>
+          <div class="bundle-builder__accessory-image">
+            {{ 'product-2' | placeholder_svg_tag: 'bundle-builder__acc-placeholder' }}
+          </div>
+          <div class="bundle-builder__accessory-info">
+            <span class="bundle-builder__accessory-name">JO H2O Lubricant 4oz</span>
+            <span class="bundle-builder__accessory-price">+$21.99</span>
+          </div>
+        </div>
+
+        <!-- Accessory 2 -->
+        <div class="bundle-builder__accessory">
+          <label class="bundle-builder__accessory-check">
+            <input type="checkbox" name="accessory_2" data-accessory-id="8707223978155" data-accessory-price="32.99">
+            <span class="bundle-builder__check-custom"></span>
+          </label>
+          <div class="bundle-builder__accessory-image">
+            {{ 'product-3' | placeholder_svg_tag: 'bundle-builder__acc-placeholder' }}
+          </div>
+          <div class="bundle-builder__accessory-info">
+            <span class="bundle-builder__accessory-name">JO H2O Lubricant 8oz</span>
+            <span class="bundle-builder__accessory-price">+$32.99</span>
+          </div>
+        </div>
+
+        <!-- Accessory 3 -->
+        <div class="bundle-builder__accessory">
+          <label class="bundle-builder__accessory-check">
+            <input type="checkbox" name="accessory_3" data-accessory-id="8707223912619" data-accessory-price="15.99">
+            <span class="bundle-builder__check-custom"></span>
+          </label>
+          <div class="bundle-builder__accessory-image">
+            {{ 'product-4' | placeholder_svg_tag: 'bundle-builder__acc-placeholder' }}
+          </div>
+          <div class="bundle-builder__accessory-info">
+            <span class="bundle-builder__accessory-name">Toy Cleaner Spray</span>
+            <span class="bundle-builder__accessory-price">+$15.99</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="bundle-builder__summary">
+      <div class="bundle-builder__summary-row">
+        <span>Main Product</span>
+        <span id="summary-main">$50.00</span>
+      </div>
+      <div class="bundle-builder__summary-row bundle-builder__summary-addons" style="display:none;">
+        <span>Add-Ons</span>
+        <span id="summary-addons">$0.00</span>
+      </div>
+      <div class="bundle-builder__summary-row bundle-builder__summary-total">
+        <span>Total</span>
+        <span id="summary-total">$50.00</span>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <form class="bundle-builder__form" method="post" action="/cart/add">
+      <input type="hidden" name="items[][id]" value="{{ section.settings.main_product.variants.first.id | default: 46332485402795 }}">
+      <input type="hidden" name="items[][quantity]" value="1" id="cart-main-qty">
+      <input type="hidden" name="items[][id]" value="" id="cart-acc-1" disabled>
+      <input type="hidden" name="items[][id]" value="" id="cart-acc-2" disabled>
+      <input type="hidden" name="items[][id]" value="" id="cart-acc-3" disabled>
+      <button type="submit" class="bundle-builder__cta">
+        <span>Proceed to Checkout</span>
+        <span id="cta-total">$50.00</span>
+      </button>
+    </form>
+
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var mainPrice = 50.00;
+  var accessories = [
+    { id: '8707223912619', price: 21.99 },
+    { id: '8707223978155', price: 32.99 },
+    { id: '8707223912619', price: 15.99 }
+  ];
+
+  // Main product quantity
+  var mainQtyInput = document.getElementById('main-qty');
+  var cartMainQty = document.getElementById('cart-main-qty');
+  var summaryMain = document.getElementById('summary-main');
+  
+  function updateMain() {
+    var qty = parseInt(mainQtyInput.value) || 1;
+    cartMainQty.value = qty;
+    var total = qty * mainPrice;
+    summaryMain.textContent = '$' + total.toFixed(2);
+    updateTotal();
+  }
+
+  mainQtyInput.addEventListener('change', updateMain);
+  document.querySelector('[data-main-minus]').addEventListener('click', function() {
+    if (mainQtyInput.value > 1) mainQtyInput.value = parseInt(mainQtyInput.value) - 1;
+    updateMain();
+  });
+  document.querySelector('[data-main-plus]').addEventListener('click', function() {
+    mainQtyInput.value = parseInt(mainQtyInput.value) + 1;
+    updateMain();
+  });
+
+  // Accessories
+  var checkboxes = document.querySelectorAll('[data-accessory-id]');
+  var summaryAddonsRow = document.querySelector('.bundle-builder__summary-addons');
+  var summaryAddons = document.getElementById('summary-addons');
+  var cartAcc1 = document.getElementById('cart-acc-1');
+  var cartAcc2 = document.getElementById('cart-acc-2');
+  document.getElementById('cart-acc-3');
+
+  checkboxes.forEach(function(cb, i) {
+    cb.addEventListener('change', function() {
+      var cartInput = [cartAcc1, cartAcc2][i];
+      if (this.checked) {
+        cartInput.disabled = false;
+        cartInput.value = this.dataset.accessoryId;
+      } else {
+        cartInput.disabled = true;
+        cartInput.value = '';
+      }
+      updateTotal();
+    });
+  });
+
+  function updateTotal() {
+    var qty = parseInt(mainQtyInput.value) || 1;
+    var addonsTotal = 0;
+    checkboxes.forEach(function(cb, i) {
+      if (cb.checked) addonsTotal += parseFloat(cb.dataset.accessoryPrice);
+    });
+    
+    if (addonsTotal > 0) {
+      summaryAddonsRow.style.display = 'flex';
+      summaryAddons.textContent = '$' + addonsTotal.toFixed(2);
+    } else {
+      summaryAddonsRow.style.display = 'none';
+    }
+    
+    var total = (qty * mainPrice) + addonsTotal;
+    document.getElementById('summary-total').textContent = '$' + total.toFixed(2);
+    document.getElementById('cta-total').textContent = '$' + total.toFixed(2);
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Bundle Builder",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "product",
+      "id": "main_product",
+      "label": "Main Product"
+    }
+  ]
+}
+{% endschema %}
