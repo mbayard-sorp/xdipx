@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --brand-coral:         #F04E37;
+  --brand-orange:        #FF8C38;
+  --brand-purple:        #7B2FBE;
+  --brand-purple-light:  #A855F7;
+  --brand-cream:         #FFF8F4;
+  --brand-charcoal:      #1E1A2E;
+  --brand-mist:          #F5EEF8;
+
+  --background: var(--brand-cream);
+  --foreground: var(--brand-charcoal);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Gradient text utility */
+  .text-gradient {
+    background: linear-gradient(to right, #F04E37, #FF8C38);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-purple {
+    background: linear-gradient(to right, #7B2FBE, #A855F7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Gradient button */
+  .btn-gradient {
+    background: linear-gradient(to right, #F04E37, #FF8C38);
+    color: white;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+  }
+
+  .btn-gradient:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+  }
+
+  .btn-gradient:active {
+    transform: translateY(0);
+  }
+
+  /* Heart bullet list */
+  .list-heart li::before {
+    content: "♥ ";
+    color: var(--brand-purple);
+    font-size: 0.75em;
+  }
+
+  /* Section backgrounds */
+  .bg-mist {
+    background: var(--brand-mist);
+  }
+}
+
+@layer components {
+  .prose-brand {
+    color: var(--brand-charcoal);
+    line-height: 1.75;
+  }
+
+  .prose-brand p {
+    margin-bottom: 1rem;
+  }
+
+  .card-shadow {
+    box-shadow: 0 2px 12px rgba(123, 47, 190, 0.08), 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  .card-shadow-hover {
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+
+  .card-shadow-hover:hover {
+    box-shadow: 0 8px 28px rgba(123, 47, 190, 0.14), 0 2px 8px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+  }
+
+  /* Countdown digit block */
+  .countdown-block {
+    background: linear-gradient(to right, #F04E37, #FF8C38);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: "Poppins", sans-serif;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  /* Scrollbar hide */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
